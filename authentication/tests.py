@@ -1,7 +1,10 @@
 from django.contrib.auth import authenticate, get_user_model
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from model_mommy import mommy
+from rest_framework import status
+from rest_framework.test import APITestCase
 
 from .models import UserProfile
 from .serializers import UserSerializer, UserProfileSerializer
@@ -85,3 +88,36 @@ class UserProfileSerializerTest(TestCase):
         self.assertEqual(profile.tagline, serializer.data['tagline'])
         self.assertEqual(profile.created_at, serializer.data['created_at'])
         self.assertEqual(profile.updated_at, serializer.data['updated_at'])
+
+
+class UserCreateViewTest(APITestCase):
+    def test_create_user(self):
+        user = mommy.prepare(User)
+        response = self.client.post(
+            reverse('user-create'),
+            {
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'password': user.password,
+            },
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(user.username, response.data['username'])
+        self.assertEqual(user.email, response.data['email'])
+        self.assertEqual(user.first_name, response.data['first_name'])
+        self.assertEqual(user.last_name, response.data['last_name'])
+
+        try:
+            db_user = User.objects.get(id=response.data['id'])
+        except User.DoesNotExist:
+            self.fail('User is not created')
+
+        self.assertEqual(db_user.id, response.data['id'])
+        self.assertEqual(db_user.username, response.data['username'])
+        self.assertEqual(db_user.email, response.data['email'])
+        self.assertEqual(db_user.first_name, response.data['first_name'])
+        self.assertEqual(db_user.last_name, response.data['last_name'])

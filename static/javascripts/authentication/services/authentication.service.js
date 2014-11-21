@@ -24,9 +24,9 @@
       getAuthenticatedAccount: getAuthenticatedAccount,
       isAuthenticated: isAuthenticated,
       login: login,
+      logout: logout,
       register: register,
       setAuthenticatedAccount: setAuthenticatedAccount,
-      unauthenticate: unauthenticate
     };
 
     return Authentication;
@@ -69,6 +69,17 @@
       function getCurrentUserError(data, status, headers, config) {
         console.error('Failed to get current user');
       }
+    }
+
+    /**
+     * @name logout
+     * @desc Try to log the user out
+     * @returns {undefined}
+     * @memberOf thinkster.authentication.services.Authentication
+     */
+    function logout() {
+      $window.localStorage.removeItem('id_token');
+      delete $cookies.authenticatedAccount;
     }
 
     /**
@@ -121,16 +132,6 @@
      */
     function setAuthenticatedAccount(account) {
       return $cookies.authenticatedAccount = JSON.stringify(account);
-    }
-
-    /**
-     * @name unauthenticate
-     * @desc Delete the cookie where the user object is stored
-     * @returns {undefined}
-     * @memberOf thinkster.authentication.services.Authentication
-     */
-    function unauthenticate() {
-      delete $cookies.authenticatedAccount;
     }
   }
 

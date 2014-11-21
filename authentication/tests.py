@@ -121,3 +121,25 @@ class UserCreateViewTest(APITestCase):
         self.assertEqual(db_user.email, response.data['email'])
         self.assertEqual(db_user.first_name, response.data['first_name'])
         self.assertEqual(db_user.last_name, response.data['last_name'])
+
+
+class CurrentUserViewTest(APITestCase):
+    def test_get_login_user(self):
+        user = mommy.prepare(User)
+        password = user.password
+        user.set_password(password)
+        user.save()
+
+        self.client.login(username=user.username, password=password)
+
+        response = self.client.get(reverse('user-me'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['username'], user.username)
+        self.assertEqual(response.data['email'], user.email)
+        self.assertEqual(response.data['first_name'], user.first_name)
+        self.assertEqual(response.data['last_name'], user.last_name)
+
+    def test_fail_when_not_login(self):
+        response = self.client.get(reverse('user-me'))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+

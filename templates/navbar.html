@@ -15,7 +15,7 @@
         {% verbatim %}
         <li ng-show="vm.user" class="ng-cloak"><a ng-href="/+{{ vm.user.username }}">+{{ vm.user.username }}</a></li>
         <li ng-show="vm.user" ng-cloak><a ng-href="/+{{ vm.user.username }}/settings">Settings</a></li>
-        <li ng-show="vm.user" ng-cloak><a href="javascript:void(0)">Logout</a></li>
+        <li ng-show="vm.user" ng-cloak><a href="javascript:void(0)" ng-click="vm.logout()">Logout</a></li>
         <li ng-show="!vm.user" ng-cloak><a href="/login">Login</a></li>
         <li ng-show="!vm.user" ng-cloak><a href="/register">Register</a></li>
         {% endverbatim %}

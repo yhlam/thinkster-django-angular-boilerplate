@@ -9,15 +9,16 @@
     .module('thinkster.layout.controllers')
     .controller('NavbarController', NavbarController);
 
-  NavbarController.$inject = ['$scope', 'Authentication'];
+  NavbarController.$inject = ['$location', '$scope', 'Authentication'];
 
   /**
    * @namespace NavbarController
    */
-  function NavbarController($scope, Authentication) {
+  function NavbarController($location, $scope, Authentication) {
     var vm = this;
 
     vm.user = Authentication.getAuthenticatedAccount();
+    vm.logout = logout;
 
     activate();
 
@@ -41,6 +42,16 @@
           vm.user = current;
         }
       }
+    }
+
+    /**
+     * @name logout
+     * @desc Logout the authenticated user
+     * @memberOf thinkster.layout.controllers.NavbarController
+     */
+    function logout() {
+      Authentication.logout();
+      $location.url('/');
     }
   }
 })();

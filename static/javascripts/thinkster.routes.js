@@ -28,6 +28,10 @@
       controller: 'ProfileController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/profile/profile.html'
+    }).when('/+:username/settings', {
+      controller: 'ProfileSettingsController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/profile/settings.html'
     });
   }
 })();

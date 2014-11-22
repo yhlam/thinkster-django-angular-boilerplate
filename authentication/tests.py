@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from model_mommy import mommy
 from model_mommy import generators
+from rest_framework import status
+from rest_framework.test import APITestCase
 
 from .models import Account
 from .serializers import AccountSerializer
@@ -123,3 +126,24 @@ class AccountSerializerTest(TestCase):
         )
 
         self.assertFalse(serializer.is_valid())
+
+
+class CurrentAccountViewTest(APITestCase):
+    def test_get_login_user(self):
+        user = mommy.prepare(Account)
+        password = user.password
+        user.set_password(password)
+        user.save()
+
+        self.client.login(email=user.email, password=password)
+
+        response = self.client.get(reverse('account-me'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['username'], user.username)
+        self.assertEqual(response.data['email'], user.email)
+        self.assertEqual(response.data['first_name'], user.first_name)
+        self.assertEqual(response.data['last_name'], user.last_name)
+
+    def test_fail_when_not_login(self):
+        response = self.client.get(reverse('account-me'))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

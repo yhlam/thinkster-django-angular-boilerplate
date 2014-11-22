@@ -16,6 +16,8 @@ urlpatterns = patterns(
 
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^api-token-auth/', 'rest_framework_jwt.views.obtain_jwt_token'),
+
     url(r'^api/v1/', include(router.urls)),
 
     url('^.*$', TemplateView.as_view(template_name='index.html'), name='index'),

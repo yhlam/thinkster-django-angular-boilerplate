@@ -25,7 +25,18 @@
      * @memberOf thinkster.authentication.controllers.RegisterController
      */
     function register() {
-      Authentication.register(vm.username, vm.password, vm.confirmPassword, vm.email);
+      Authentication
+        .register(vm.username, vm.password, vm.confirmPassword, vm.email)
+        .then(login)
+        .then(redirectToHome);
+
+      function login() {
+        return Authentication.login(vm.email, vm.password);
+      }
+
+      function redirectToHome() {
+        $location.url('/');
+      }
     }
   }
 })();

@@ -38,6 +38,8 @@
         vm.posts.shift();
       });
 
+      $scope.$watch(function () { return Authentication.isAuthenticated(); }, updateAuthenticatedFlag);
+
 
       /**
        * @name postSucessFn
@@ -54,6 +56,20 @@
        */
       function postErrorFn(data, status, headers, config) {
         Snackbar.error(data.error);
+      }
+
+
+      /**
+      * @name updateAuthenticatedFlag
+      * @desc Update isAuthenticated flag
+      * @param {boolean} current The current value
+      * @param {boolean} original The value before it was updated
+      * @memberOf thinkster.post.controllers.NewPostController
+      */
+      function updateAuthenticatedFlag(current, original) {
+        if(current != original) {
+          vm.isAuthenticated = current;
+        }
       }
     }
   }

@@ -8,6 +8,7 @@
       'thinkster.authentication',
       'thinkster.layout',
       'thinkster.post',
+      'thinkster.profile',
       'thinkster.util',
     ]);
 

@@ -3,6 +3,7 @@
 
 {% compress js %}
 <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'bower_components/underscore/underscore-min.js' %}"></script>
 <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
 <script type="text/javascript" src="{% static 'bower_components/bootstrap-material-design/dist/js/material.js' %}"></script>
 <script type="text/javascript" src="{% static 'bower_components/bootstrap-material-design/dist/js/ripples.js' %}"></script>
@@ -24,4 +25,12 @@
 <script type="text/javascript" src="{% static 'javascripts/authentication/controllers/login.controller.js' %}"></script>
 <script type="text/javascript" src="{% static 'javascripts/layout/layout.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'javascripts/layout/controllers/navbar.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascripts/layout/controllers/index.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascripts/post/post.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascripts/post/controllers/posts.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascripts/post/directives/post.directive.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascripts/post/directives/posts.directive.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascripts/post/services/post.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascripts/util/util.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascripts/util/services/snackbar.service.js' %}"></script>
 {% endcompress %}
